@@ -8,7 +8,7 @@ This requires users to authenticate in order to change the wiki (create /
 edit / delete / rename / revert pages).
 Read-only access is permitted by default.
 
-**NOTE: This is a draft ("null middleware") that currently does NO authentication!**
+**NOTE: This is a draft with hard-coded credentials `admin:password`!**
 
 
 ## Installation
