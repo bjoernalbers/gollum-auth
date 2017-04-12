@@ -18,7 +18,7 @@ describe Gollum::Auth do
   let(:app) { Gollum::Auth::App.new(Precious::FakeApp, users: users) }
 
   it 'has a version number' do
-    expect(Gollum::Auth::VERSION).to eq '0.0.1'
+    expect(Gollum::Auth::VERSION).to eq '0.1.0'
   end
 
   it 'does not require authentication on the home page' do
