@@ -1,5 +1,7 @@
 # Gollum::Auth - Authentication Middleware for Gollum Wiki
 
+[![Gem Version](https://badge.fury.io/rb/gollum-auth.svg)](https://badge.fury.io/rb/gollum-auth)
+
 `Gollum::Auth` is a Rack-Middleware to add
 [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)
 to
