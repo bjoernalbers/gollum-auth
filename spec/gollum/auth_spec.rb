@@ -12,7 +12,10 @@ end
 describe Gollum::Auth do
   include Rack::Test::Methods
 
-  let(:app) { Gollum::Auth::App.new(Precious::FakeApp) }
+  let(:users) do
+    [ { 'user' => 'admin', 'password' => 'password' } ]
+  end
+  let(:app) { Gollum::Auth::App.new(Precious::FakeApp, users: users) }
 
   it 'has a version number' do
     expect(Gollum::Auth::VERSION).to eq '0.0.1'

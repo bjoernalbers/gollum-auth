@@ -8,15 +8,16 @@ module Gollum
     end
 
     class App
-      def initialize(app)
+      def initialize(app, opts = { })
         @app = app
+        @users = opts.fetch(:users, [ ])
       end
 
       def call(env)
         request = Rack::Request.new(env)
         if request.path_info =~ /^\/(create|edit|delete|rename|revert|upload)(\/.*)?$/
           auth = Rack::Auth::Basic::Request.new(env)
-          unless auth.provided? && auth.basic? && auth.credentials == ['admin', 'password']
+          unless auth.provided? && auth.basic? && valid?(auth.credentials)
             return [
               401,
               { 'Content-Type' => 'text/plain', 'WWW-Authenticate' => 'Basic realm="Gollum Wiki"' },
@@ -25,6 +26,12 @@ module Gollum
           end
         end
         @app.call(env)
+      end
+
+      private
+
+      def valid?(credentials)
+        @users.any? { |u| [ u['user'], u['password'] ] == credentials }
       end
     end
   end

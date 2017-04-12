@@ -8,8 +8,6 @@ This requires users to authenticate in order to change the wiki (create /
 edit / delete / rename / revert pages).
 Read-only access is permitted by default.
 
-**NOTE: This is a draft with hard-coded credentials `admin:password`!**
-
 
 ## Installation
 
@@ -38,10 +36,17 @@ Here is a sample `config.ru`:
 ```ruby
 #!/usr/bin/env ruby
 require 'rubygems'
-require 'gollum/auth' # <- !!!
+require 'gollum/auth' # Load the gem!
 require 'gollum/app'
 
-use Gollum::Auth # <- !!!
+# Enable Authentication and define users *before* running Precious::App!
+use Gollum::Auth, users: YAML.load(%q{
+---
+- user: admin
+  password: test
+- user: foo
+  password: bar
+})
 
 gollum_path = File.expand_path(File.dirname(__FILE__)) # CHANGE THIS TO POINT TO YOUR OWN WIKI REPO
 wiki_options = {:universal_toc => false}
@@ -53,9 +58,15 @@ run Precious::App
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies.
+Then, run `rake spec` to run the tests. You can also run `bin/console` for an
+interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
+To release a new version, update the version number in `version.rb`, and then
+run `bundle exec rake release`, which will create a git tag for the version,
+push git commits and tags, and push the `.gem` file to
+[rubygems.org](https://rubygems.org).
 
 
 ## Contributing
