@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 require 'rack/test'
 
 module Precious
@@ -12,8 +12,11 @@ end
 describe Gollum::Auth do
   include Rack::Test::Methods
 
+  let(:user_params) do
+    FactoryGirl.attributes_for(:user, username: 'admin', password: 'password')
+  end
   let(:users) do
-    [ { 'username' => 'admin', 'password' => 'password' } ]
+    [ user_params]
   end
   let(:app) { Gollum::Auth::App.new(Precious::FakeApp, users: users) }
 

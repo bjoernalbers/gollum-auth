@@ -5,9 +5,9 @@ module Gollum::Auth
   class User
     include ActiveModel::Model
 
-    attr_accessor :username, :password
+    attr_accessor :username, :password, :name, :email
 
-    validates_presence_of :username, :password
+    validates_presence_of :username, :password, :name, :email
 
     class << self
       def find(username)

@@ -2,12 +2,11 @@ require 'spec_helper'
 
 module Gollum::Auth
   describe User do
-    let(:params)  { { username: 'Homer', password: 'Marge' } }
-    let(:subject) { User.new(params) }
+    subject { build(:user) }
 
     describe '.find' do
-      subject    { described_class }
-      let!(:user) { User.new(username: 'Bart', password: '12345').save! }
+      subject { described_class }
+      let!(:user) { create(:user) }
 
       context 'when username is found' do
         it 'returns user' do
@@ -32,6 +31,20 @@ module Gollum::Auth
     describe '#password' do
       it 'must be present' do
         subject.password = nil
+        expect(subject).to be_invalid
+      end
+    end
+
+    describe '#name' do
+      it 'must be present' do
+        subject.name = nil
+        expect(subject).to be_invalid
+      end
+    end
+
+    describe '#email' do
+      it 'must be present' do
+        subject.email = nil
         expect(subject).to be_invalid
       end
     end
