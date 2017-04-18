@@ -45,9 +45,9 @@ require 'gollum/app'
 # Enable Authentication and define users *before* running Precious::App!
 use Gollum::Auth, users: YAML.load(%q{
 ---
-- user: admin
+- username: admin
   password: test
-- user: foo
+- username: foo
   password: bar
 })
 

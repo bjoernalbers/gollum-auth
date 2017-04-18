@@ -5,13 +5,13 @@ module Gollum::Auth
   class User
     include ActiveModel::Model
 
-    attr_accessor :user, :password
+    attr_accessor :username, :password
 
-    validates_presence_of :user, :password
+    validates_presence_of :username, :password
 
     class << self
-      def find(user)
-        all.select { |u| u.user == user }.first
+      def find(username)
+        all.select { |u| u.username == username }.first
       end
 
       def all

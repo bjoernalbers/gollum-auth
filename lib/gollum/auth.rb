@@ -33,8 +33,8 @@ module Gollum
       private
 
       def valid?(credentials)
-        user, password = credentials
-        current_user = User.find(user)
+        username, password = credentials
+        current_user = User.find(username)
         current_user && current_user.valid_password?(password)
       end
 

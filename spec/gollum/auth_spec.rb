@@ -13,7 +13,7 @@ describe Gollum::Auth do
   include Rack::Test::Methods
 
   let(:users) do
-    [ { 'user' => 'admin', 'password' => 'password' } ]
+    [ { 'username' => 'admin', 'password' => 'password' } ]
   end
   let(:app) { Gollum::Auth::App.new(Precious::FakeApp, users: users) }
 

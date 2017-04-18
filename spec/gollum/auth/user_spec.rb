@@ -2,29 +2,29 @@ require 'spec_helper'
 
 module Gollum::Auth
   describe User do
-    let(:params)  { { user: 'Homer', password: 'Marge' } }
+    let(:params)  { { username: 'Homer', password: 'Marge' } }
     let(:subject) { User.new(params) }
 
     describe '.find' do
       subject    { described_class }
-      let!(:user) { User.new(user: 'Bart', password: '12345').save! }
+      let!(:user) { User.new(username: 'Bart', password: '12345').save! }
 
-      context 'when user is found' do
+      context 'when username is found' do
         it 'returns user' do
-          expect(subject.find(user.user)).to eq user
+          expect(subject.find(user.username)).to eq user
         end
       end
 
-      context 'when user is not found' do
+      context 'when username is not found' do
         it 'returns nil' do
           expect(subject.find('chunkybacon')).to be nil
         end
       end
     end
 
-    describe '#user' do
+    describe '#username' do
       it 'must be present' do
-        subject.user = nil
+        subject.username = nil
         expect(subject).to be_invalid
       end
     end
@@ -66,7 +66,7 @@ module Gollum::Auth
     describe '#save' do
       context 'when invalid' do
         before do
-          subject.user = nil
+          subject.username = nil
         end
 
         it 'is invalid' do
