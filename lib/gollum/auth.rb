@@ -1,5 +1,7 @@
 require 'rack'
+require 'active_model'
 require 'gollum/auth/version'
+require 'gollum/auth/user'
 
 module Gollum
   module Auth
@@ -10,7 +12,7 @@ module Gollum
     class App
       def initialize(app, opts = { })
         @app = app
-        @users = opts.fetch(:users, [ ])
+        @users = opts.fetch(:users, [ ]).map { |args| User.new(args) }
       end
 
       def call(env)
@@ -31,7 +33,7 @@ module Gollum
       private
 
       def valid?(credentials)
-        @users.any? { |u| [ u['user'], u['password'] ] == credentials }
+        @users.any? { |u| [ u.user, u.password ] == credentials }
       end
     end
   end
