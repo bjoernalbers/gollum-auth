@@ -9,8 +9,14 @@ module Gollum::Auth
 
     validates_presence_of :user, :password
 
-    def self.all
-      @all ||= []
+    class << self
+      def find(user)
+        all.select { |u| u.user == user }.first
+      end
+
+      def all
+        @all ||= []
+      end
     end
 
     def save!
@@ -19,6 +25,10 @@ module Gollum::Auth
 
     def save
       (self.class.all << self; self) if valid?
+    end
+
+    def valid_password?(other)
+      password == other
     end
 
     private

@@ -5,6 +5,23 @@ module Gollum::Auth
     let(:params)  { { user: 'Homer', password: 'Marge' } }
     let(:subject) { User.new(params) }
 
+    describe '.find' do
+      subject    { described_class }
+      let!(:user) { User.new(user: 'Bart', password: '12345').save! }
+
+      context 'when user is found' do
+        it 'returns user' do
+          expect(subject.find(user.user)).to eq user
+        end
+      end
+
+      context 'when user is not found' do
+        it 'returns nil' do
+          expect(subject.find('chunkybacon')).to be nil
+        end
+      end
+    end
+
     describe '#user' do
       it 'must be present' do
         subject.user = nil
@@ -78,6 +95,20 @@ module Gollum::Auth
 
         it 'returns self' do
           expect(subject.save).to eq subject
+        end
+      end
+    end
+
+    describe '#valid_password?' do
+      context 'when correct' do
+        it 'returns true' do
+          expect(subject.valid_password?(subject.password)).to eq true
+        end
+      end
+
+      context 'when incorrect' do
+        it 'returns false' do
+          expect(subject.valid_password?('chunkybacon')).to eq false
         end
       end
     end

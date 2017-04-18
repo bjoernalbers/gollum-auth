@@ -12,7 +12,7 @@ module Gollum
     class App
       def initialize(app, opts = { })
         @app = app
-        @users = opts.fetch(:users, [ ]).map { |args| User.new(args).save! }
+        opts.fetch(:users, [ ]).map { |args| User.new(args).save! }
       end
 
       def call(env)
@@ -33,7 +33,13 @@ module Gollum
       private
 
       def valid?(credentials)
-        @users.any? { |u| [ u.user, u.password ] == credentials }
+        user, password = credentials
+        current_user = User.find(user)
+        current_user && current_user.valid_password?(password)
+      end
+
+      def users
+        User.all
       end
     end
   end
