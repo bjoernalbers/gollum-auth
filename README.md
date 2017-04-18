@@ -43,12 +43,17 @@ require 'gollum/auth' # Load the gem!
 require 'gollum/app'
 
 # Enable Authentication and define users *before* running Precious::App!
+# Also each user must have a username, password, (full) name and email.
 use Gollum::Auth, users: YAML.load(%q{
 ---
-- username: admin
-  password: test
-- username: foo
-  password: bar
+- username: rick
+  password: asdf754&1129-@lUZw
+  name: Rick Sanchez
+  email: rick@example.com
+- username: morty
+  password: 12345
+  name: Morty Smith
+  email: morty@example.com
 })
 
 gollum_path = File.expand_path(File.dirname(__FILE__)) # CHANGE THIS TO POINT TO YOUR OWN WIKI REPO
