@@ -8,7 +8,7 @@ module Gollum::Auth
     attr_accessor :username, :password, :name, :email
 
     validates_presence_of :username, :password, :name, :email
-    validates_format_of :username, with: /\A[-a-zA-Z\d\._]+\Z/
+    validates_format_of :username, with: /\A[\w\.-]+\Z/
 
     class << self
       def find(username)
