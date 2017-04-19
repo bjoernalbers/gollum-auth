@@ -30,6 +30,11 @@ module Gollum::Auth
         subject.username = nil
         expect(subject).to be_invalid
       end
+
+      it 'must not include german umlauts' do
+        subject.username = "Björn"
+        expect(subject).to be_invalid
+      end
     end
 
     describe '#password' do
