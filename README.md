@@ -3,14 +3,13 @@
 [![Gem Version](https://badge.fury.io/rb/gollum-auth.svg)](https://badge.fury.io/rb/gollum-auth)
 [![Build Status](https://travis-ci.org/bjoernalbers/gollum-auth.svg?branch=master)](https://travis-ci.org/bjoernalbers/gollum-auth)
 
-[Gollum](https://github.com/gollum/gollum)
+[gollum](https://github.com/gollum/gollum)
 is an excellent Wiki-software.
 But it does not include user authentication (on purpose).
 
-`Gollum::Auth` is a Rack-Middleware that add
+[gollum-auth](https://github.com/bjoernalbers/gollum-auth) adds
 [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)
-to gollum.
-With this only authenticated users have access to your wiki.
+to gollum so that only authenticated users have access to your wiki.
 Optionally you can allow readonly-access for unauthenticated guests.
 
 
