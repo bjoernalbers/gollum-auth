@@ -47,8 +47,6 @@ require 'gollum/app'
 
 # Define list of authorized users.
 # Each user must have a username, password, name and email.
-# username and password are used for authentication via Web UI.
-# name and password are passed to gollum for the commit message.
 # Example:
 users = YAML.load %q{
 ---
