@@ -43,7 +43,7 @@ require 'gollum/auth' # Don't forget to load the gem!
 require 'gollum/app'
 
 # Define list of authorized users where each must have a "name", "password"
-and "email":
+# and "email":
 users = YAML.load %q{
 ---
 - name: Rick Sanchez
@@ -54,7 +54,7 @@ users = YAML.load %q{
   email: morty@example.com
 }
 
-# Allow only authenticated users to access and change the wiki.
+# Allow only authenticated users to change the wiki.
 # (NOTE: This must be loaded *before* Precious::App!)
 use Gollum::Auth, users
 
