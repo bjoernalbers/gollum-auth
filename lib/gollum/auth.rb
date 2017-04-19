@@ -18,9 +18,13 @@ module Gollum
       end
 
       def call(env)
-        if Request.new(env).needs_authentication?(@opts[:allow_guests])
+        request = Request.new(env)
+        if request.needs_authentication?(@opts[:allow_guests])
           auth = Rack::Auth::Basic::Request.new(env)
-          unless auth.provided? && auth.basic? && valid?(auth.credentials)
+          if auth.provided? && auth.basic? && valid?(auth.credentials)
+            user = User.find(auth.credentials.first)
+            request.store_author_in_session(user)
+          else
             return [
               401,
               { 'Content-Type' => 'text/plain', 'WWW-Authenticate' => 'Basic realm="Gollum Wiki"' },

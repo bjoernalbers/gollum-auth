@@ -13,7 +13,10 @@ describe Gollum::Auth do
   include Rack::Test::Methods
 
   let(:user_params) do
-    FactoryGirl.attributes_for(:user, name: 'admin', password: 'password')
+    FactoryGirl.attributes_for(:user,
+                               name: 'admin',
+                               email: 'admin@example.com',
+                               password: 'password')
   end
   let(:users) do
     [ user_params]
@@ -57,6 +60,15 @@ describe Gollum::Auth do
     basic_authorize 'admin', 'password'
     get '/edit/Home'
     expect(last_response).to be_ok
+  end
+
+  it 'stores user in session with valid credetials' do
+    basic_authorize 'admin', 'password'
+    get '/edit/Home'
+    session = last_request.env.fetch('rack.session')
+    author = session.fetch('gollum.author')
+    expect(author[:name]).to eq 'admin'
+    expect(author[:email]).to eq 'admin@example.com'
   end
 
   context 'when guests are allowed' do

@@ -4,6 +4,10 @@ module Gollum::Auth
       !allow_guests || is_change_request?
     end
 
+    def store_author_in_session(user)
+      session['gollum.author'] = { name: user.name, email: user.email }
+    end
+
     private
 
     # Returns true if the request includes a path that would result in a change

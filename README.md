@@ -11,6 +11,8 @@ But it does not include user authentication (on purpose).
 [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)
 to gollum so that only authenticated users have access to your wiki.
 Optionally you can allow readonly-access for unauthenticated guests.
+Also the current user's name and e-mail are passed to gollum (via session key
+`gollum.author`) to see who changed what.
 
 
 ## Installation
