@@ -3,13 +3,15 @@
 [![Gem Version](https://badge.fury.io/rb/gollum-auth.svg)](https://badge.fury.io/rb/gollum-auth)
 [![Build Status](https://travis-ci.org/bjoernalbers/gollum-auth.svg?branch=master)](https://travis-ci.org/bjoernalbers/gollum-auth)
 
-`Gollum::Auth` is a Rack-Middleware to add
+[Gollum](https://github.com/gollum/gollum)
+is an excellent Wiki-software.
+But it does not include user authentication (on purpose).
+
+`Gollum::Auth` is a Rack-Middleware that add
 [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)
-to
-[gollum](https://github.com/gollum/gollum).
-This requires users to authenticate in order to change the wiki (create /
-edit / delete / rename / revert pages).
-Read-only access is permitted by default.
+to gollum.
+With this only authenticated users have access to your wiki.
+Optionally you can allow readonly-access for unauthenticated guests.
 
 
 ## Installation
@@ -54,9 +56,12 @@ users = YAML.load %q{
   email: morty@example.com
 }
 
+# Allow unauthenticated users to read the wiki (disabled by default).
+options = { allow_guests: true }
+
 # Allow only authenticated users to change the wiki.
 # (NOTE: This must be loaded *before* Precious::App!)
-use Gollum::Auth, users
+use Gollum::Auth, users, options
 
 # That's it. The rest is for gollum only.
 gollum_path = File.expand_path(File.dirname(__FILE__)) # CHANGE THIS TO POINT TO YOUR OWN WIKI REPO

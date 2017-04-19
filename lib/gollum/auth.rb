@@ -1,6 +1,7 @@
 require 'rack'
 require 'active_model'
 require 'gollum/auth/version'
+require 'gollum/auth/request'
 require 'gollum/auth/user'
 
 module Gollum
@@ -10,14 +11,14 @@ module Gollum
     end
 
     class App
-      def initialize(app, users)
+      def initialize(app, users, opts = { })
         @app = app
         users.each { |args| User.new(args).save! }
+        @opts = { allow_guests: false }.merge(opts)
       end
 
       def call(env)
-        request = Rack::Request.new(env)
-        if request.path_info =~ /^\/(create|edit|delete|rename|revert|upload)(\/.*)?$/
+        if Request.new(env).needs_authentication?(@opts[:allow_guests])
           auth = Rack::Auth::Basic::Request.new(env)
           unless auth.provided? && auth.basic? && valid?(auth.credentials)
             return [

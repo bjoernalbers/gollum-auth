@@ -24,7 +24,10 @@ describe Gollum::Auth do
     expect(Gollum::Auth::VERSION).to eq '0.2.0'
   end
 
-  it 'does not require authentication on the home page' do
+  it 'requires authentication on read' do
+    get '/Home'
+    expect(last_response).to be_unauthorized
+    basic_authorize 'admin', 'password'
     get '/Home'
     expect(last_response).to be_ok
   end
@@ -54,5 +57,15 @@ describe Gollum::Auth do
     basic_authorize 'admin', 'password'
     get '/edit/Home'
     expect(last_response).to be_ok
+  end
+
+  context 'when guests are allowed' do
+    let(:options) { { allow_guests: true } }
+    let(:app) { Gollum::Auth::App.new(Precious::FakeApp, users, options) }
+
+    it 'does not require authentication on the home page' do
+      get '/Home'
+      expect(last_response).to be_ok
+    end
   end
 end
