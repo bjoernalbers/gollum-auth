@@ -4,26 +4,30 @@ module Gollum::Auth
   describe User do
     subject { build(:user) }
 
+    it 'has valid factory' do
+      expect(subject).to be_valid
+    end
+
     describe '.find' do
       subject { described_class }
       let!(:user) { create(:user) }
 
-      context 'when name is found' do
+      context 'when username is found' do
         it 'returns user' do
-          expect(subject.find(user.name)).to eq user
+          expect(subject.find(user.username)).to eq user
         end
       end
 
-      context 'when name is not found' do
+      context 'when username is not found' do
         it 'returns nil' do
           expect(subject.find('chunkybacon')).to be nil
         end
       end
     end
 
-    describe '#name' do
+    describe '#username' do
       it 'must be present' do
-        subject.name = nil
+        subject.username = nil
         expect(subject).to be_invalid
       end
     end
@@ -31,6 +35,13 @@ module Gollum::Auth
     describe '#password' do
       it 'must be present' do
         subject.password = nil
+        expect(subject).to be_invalid
+      end
+    end
+
+    describe '#name' do
+      it 'must be present' do
+        subject.name = nil
         expect(subject).to be_invalid
       end
     end
@@ -72,7 +83,7 @@ module Gollum::Auth
     describe '#save' do
       context 'when invalid' do
         before do
-          subject.name = nil
+          subject.username = nil
         end
 
         it 'is invalid' do

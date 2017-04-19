@@ -14,8 +14,9 @@ describe Gollum::Auth do
 
   let(:user_params) do
     FactoryGirl.attributes_for(:user,
-                               name: 'admin',
+                               username: 'admin',
                                email: 'admin@example.com',
+                               name: 'Administrator',
                                password: 'password')
   end
   let(:users) do
@@ -67,7 +68,7 @@ describe Gollum::Auth do
     get '/edit/Home'
     session = last_request.env.fetch('rack.session')
     author = session.fetch('gollum.author')
-    expect(author[:name]).to eq 'admin'
+    expect(author[:name]).to eq 'Administrator'
     expect(author[:email]).to eq 'admin@example.com'
   end
 

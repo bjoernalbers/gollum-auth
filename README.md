@@ -45,15 +45,20 @@ require 'rubygems'
 require 'gollum/auth' # Don't forget to load the gem!
 require 'gollum/app'
 
-# Define list of authorized users where each must have a "name", "password"
-# and "email":
+# Define list of authorized users.
+# Each user must have a username, password, name and email.
+# username and password are used for authentication via Web UI.
+# name and password are passed to gollum for the commit message.
+# Example:
 users = YAML.load %q{
 ---
-- name: Rick Sanchez
+- username: rick
   password: asdf754&1129-@lUZw
+  name: Rick Sanchez
   email: rick@example.com
-- name: Morty Smith
+- username: morty
   password: 12345
+  name: Morty Smith
   email: morty@example.com
 }
 
