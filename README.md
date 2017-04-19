@@ -39,23 +39,26 @@ Here is a sample `config.ru`:
 ```ruby
 #!/usr/bin/env ruby
 require 'rubygems'
-require 'gollum/auth' # Load the gem!
+require 'gollum/auth' # Don't forget to load the gem!
 require 'gollum/app'
 
-# Enable Authentication and define users *before* running Precious::App!
-# Also each user must have a username, password, (full) name and email.
-use Gollum::Auth, users: YAML.load(%q{
+# Define list of authorized users where each must have a "name", "password"
+and "email":
+users = YAML.load %q{
 ---
-- username: rick
+- name: Rick Sanchez
   password: asdf754&1129-@lUZw
-  name: Rick Sanchez
   email: rick@example.com
-- username: morty
+- name: Morty Smith
   password: 12345
-  name: Morty Smith
   email: morty@example.com
-})
+}
 
+# Allow only authenticated users to access and change the wiki.
+# (NOTE: This must be loaded *before* Precious::App!)
+use Gollum::Auth, users
+
+# That's it. The rest is for gollum only.
 gollum_path = File.expand_path(File.dirname(__FILE__)) # CHANGE THIS TO POINT TO YOUR OWN WIKI REPO
 wiki_options = {:universal_toc => false}
 Precious::App.set(:gollum_path, gollum_path)

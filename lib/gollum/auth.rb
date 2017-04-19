@@ -10,9 +10,9 @@ module Gollum
     end
 
     class App
-      def initialize(app, opts = { })
+      def initialize(app, users)
         @app = app
-        opts.fetch(:users, [ ]).map { |args| User.new(args).save! }
+        users.each { |args| User.new(args).save! }
       end
 
       def call(env)

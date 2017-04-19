@@ -2,9 +2,8 @@ include Faker
 
 FactoryGirl.define do
   factory :user, class: Gollum::Auth::User do
-    username { Internet.user_name }
-    password { Internet.password }
     name     { Name.name }
+    password { Internet.password }
     email    { Internet.email }
   end
 end
