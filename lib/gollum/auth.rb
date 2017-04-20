@@ -25,11 +25,7 @@ module Gollum
             user = User.find(auth.credentials.first)
             request.store_author_in_session(user)
           else
-            return [
-              401,
-              { 'Content-Type' => 'text/plain', 'WWW-Authenticate' => 'Basic realm="Gollum Wiki"' },
-              [ 'Not authorized' ]
-            ]
+            return not_authorized
           end
         end
         @app.call(env)
@@ -45,6 +41,17 @@ module Gollum
 
       def users
         User.all
+      end
+
+      def not_authorized
+        [
+          401,
+          {
+            'Content-Type'     => 'text/plain',
+            'WWW-Authenticate' => 'Basic realm="Gollum Wiki"'
+          },
+          [ 'Not authorized' ]
+        ]
       end
     end
   end
