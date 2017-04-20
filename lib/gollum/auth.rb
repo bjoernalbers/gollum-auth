@@ -32,10 +32,6 @@ module Gollum
 
       private
 
-      def users
-        User.all
-      end
-
       def not_authorized
         [
           401,
