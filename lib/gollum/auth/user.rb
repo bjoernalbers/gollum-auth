@@ -11,12 +11,22 @@ module Gollum::Auth
     validates_format_of :username, with: /\A[\w\.-]+\Z/
 
     class << self
+      def find_by_credentials(credentials)
+        username, password = credentials
+        user = find(username)
+        user if user && user.password == password
+      end
+
       def find(username)
         all.select { |u| u.username == username }.first
       end
 
       def all
         @all ||= []
+      end
+
+      def delete_all
+        @all = []
       end
     end
 

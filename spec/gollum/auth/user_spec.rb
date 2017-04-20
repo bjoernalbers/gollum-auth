@@ -8,6 +8,27 @@ module Gollum::Auth
       expect(subject).to be_valid
     end
 
+    describe '.find_by_credentials' do
+      subject { described_class }
+      let!(:user) { create(:user, username: 'monty', password: '12345') }
+
+      after do
+        described_class.delete_all
+      end
+
+      it 'returns user when user exists and password is valid' do
+        expect(subject.find_by_credentials(%w(monty 12345))).to eq user
+      end
+
+      it 'returns nil when user exists but password is invalid' do
+        expect(subject.find_by_credentials(%w(monty wrong))).to be nil
+      end
+
+      it 'returns nil when user does not exist' do
+        expect(subject.find_by_credentials(%w(rick 12345))).to be nil
+      end
+    end
+
     describe '.find' do
       subject { described_class }
       let!(:user) { create(:user) }

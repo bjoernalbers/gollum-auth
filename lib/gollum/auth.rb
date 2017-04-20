@@ -21,8 +21,7 @@ module Gollum
         request = Request.new(env)
         if request.needs_authentication?(@opts[:allow_guests])
           auth = Rack::Auth::Basic::Request.new(env)
-          if auth.provided? && auth.basic? && valid?(auth.credentials)
-            user = User.find(auth.credentials.first)
+          if auth.provided? && auth.basic? && user = User.find_by_credentials(auth.credentials)
             request.store_author_in_session(user)
           else
             return not_authorized
@@ -32,12 +31,6 @@ module Gollum
       end
 
       private
-
-      def valid?(credentials)
-        username, password = credentials
-        current_user = User.find(username)
-        current_user && current_user.valid_password?(password)
-      end
 
       def users
         User.all
