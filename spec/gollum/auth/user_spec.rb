@@ -66,6 +66,12 @@ module Gollum::Auth
         subject.password = '123'
         expect(subject.password_digest).to eq Digest::SHA256.hexdigest('123')
       end
+
+      it 'converts integer to strings' do
+        expect(subject.password_digest).not_to be_present
+        subject.password = 123
+        expect(subject.password_digest).to eq Digest::SHA256.hexdigest('123')
+      end
     end
 
     describe '#password_digest' do

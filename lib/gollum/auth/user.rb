@@ -44,7 +44,7 @@ module Gollum::Auth
     end
 
     def password=(password)
-      self.password_digest = build_digest(password) if password
+      self.password_digest = build_digest(password.to_s) if password
     end
 
     private
