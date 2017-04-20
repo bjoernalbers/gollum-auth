@@ -47,6 +47,10 @@ require 'gollum/app'
 
 # Define list of authorized users.
 # Each user must have a username, password, name and email.
+#
+# Instead of a password you can also define a password_digest, which is the
+# SHA-256 hash of a password.
+#
 # Example:
 users = YAML.load %q{
 ---
@@ -55,7 +59,7 @@ users = YAML.load %q{
   name: Rick Sanchez
   email: rick@example.com
 - username: morty
-  password: 12345
+  password_digest: 5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5
   name: Morty Smith
   email: morty@example.com
 }
