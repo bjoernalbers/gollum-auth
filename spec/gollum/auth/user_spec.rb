@@ -58,10 +58,39 @@ module Gollum::Auth
       end
     end
 
+    # TODO: Convert into setter for password_digest!
     describe '#password' do
       it 'must be present' do
         subject.password = nil
         expect(subject).to be_invalid
+      end
+    end
+
+    describe '#password_digest' do
+      it 'must be present' do
+        subject.password_digest = nil
+        expect(subject).to be_invalid
+      end
+
+      it 'must include only lowercase hex chars' do
+        [
+          '2C26B46B68FFC68FF99B453C1D30413413422D706483BFA0F98A5E886266E7AE',
+          '#-.!_,6b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae',
+          'äc26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae'
+        ].each do |digest|
+          subject.password_digest = digest
+          expect(subject).to be_invalid
+        end
+      end
+
+      it 'must be 64 chars long' do
+        [
+          '2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7a',
+          '2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7aef'
+        ].each do |digest|
+          subject.password_digest = digest
+          expect(subject).to be_invalid
+        end
       end
     end
 

@@ -5,16 +5,17 @@ module Gollum::Auth
   class User
     include ActiveModel::Model
 
-    attr_accessor :username, :password, :name, :email
+    attr_accessor :username, :password, :password_digest, :name, :email
 
-    validates_presence_of :username, :password, :name, :email
+    validates_presence_of :username, :password, :password_digest, :name, :email
     validates_format_of :username, with: /\A[\w\.-]+\Z/
+    validates_format_of :password_digest, with: /\A[0-9a-f]{64}\Z/
 
     class << self
       def find_by_credentials(credentials)
         username, password = credentials
         user = find(username)
-        user if user && user.password == password
+        user if user && user.valid_password?(password)
       end
 
       def find(username)
