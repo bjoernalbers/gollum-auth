@@ -25,7 +25,7 @@ module Gollum::Auth
     end
 
     def save
-      (self.class.all << self; self) if valid?
+      valid? ? (self.class.all << self; true) : false
     end
 
     def valid_password?(other)

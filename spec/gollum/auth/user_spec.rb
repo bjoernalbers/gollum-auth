@@ -100,8 +100,8 @@ module Gollum::Auth
             not_to change { described_class.all.count }
         end
 
-        it 'returns nil' do
-          expect(subject.save).to be nil
+        it 'returns false' do
+          expect(subject.save).to eq false
         end
       end
 
@@ -115,8 +115,8 @@ module Gollum::Auth
             to change { described_class.all.count }.by(1)
         end
 
-        it 'returns self' do
-          expect(subject.save).to eq subject
+        it 'returns true' do
+          expect(subject.save).to eq true
         end
       end
     end
