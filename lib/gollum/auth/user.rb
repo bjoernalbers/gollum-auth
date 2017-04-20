@@ -5,9 +5,9 @@ module Gollum::Auth
   class User
     include ActiveModel::Model
 
-    attr_accessor :username, :password, :password_digest, :name, :email
+    attr_accessor :username, :password_digest, :name, :email
 
-    validates_presence_of :username, :password, :password_digest, :name, :email
+    validates_presence_of :username, :password_digest, :name, :email
     validates_format_of :username, with: /\A[\w\.-]+\Z/
     validates_format_of :password_digest, with: /\A[0-9a-f]{64}\Z/
 
@@ -39,11 +39,19 @@ module Gollum::Auth
       valid? ? (self.class.all << self; true) : false
     end
 
-    def valid_password?(other)
-      password == other
+    def valid_password?(password)
+      password_digest == build_digest(password)
+    end
+
+    def password=(password)
+      self.password_digest = build_digest(password) if password
     end
 
     private
+
+    def build_digest(password)
+      Digest::SHA256.hexdigest(password)
+    end
 
     def error_message
       errors.full_messages.join(', ')

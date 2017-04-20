@@ -1,3 +1,4 @@
+require 'digest'
 require 'rack'
 require 'active_model'
 require 'gollum/auth/version'

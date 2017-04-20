@@ -58,11 +58,13 @@ module Gollum::Auth
       end
     end
 
-    # TODO: Convert into setter for password_digest!
-    describe '#password' do
-      it 'must be present' do
-        subject.password = nil
-        expect(subject).to be_invalid
+    describe '#password=' do
+      subject { described_class.new }
+
+      it 'sets password_digest' do
+        expect(subject.password_digest).not_to be_present
+        subject.password = '123'
+        expect(subject.password_digest).to eq Digest::SHA256.hexdigest('123')
       end
     end
 
@@ -172,15 +174,17 @@ module Gollum::Auth
     end
 
     describe '#valid_password?' do
+      subject { build(:user, password: 'topsecret') }
+
       context 'when correct' do
         it 'returns true' do
-          expect(subject.valid_password?(subject.password)).to eq true
+          expect(subject.valid_password?('topsecret')).to eq true
         end
       end
 
       context 'when incorrect' do
         it 'returns false' do
-          expect(subject.valid_password?('chunkybacon')).to eq false
+          expect(subject.valid_password?('wrongpassword')).to eq false
         end
       end
     end
