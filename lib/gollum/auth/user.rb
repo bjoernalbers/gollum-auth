@@ -40,7 +40,7 @@ module Gollum::Auth
     end
 
     def valid_password?(password)
-      password_digest == build_digest(password)
+      Rack::Utils.secure_compare(password_digest, build_digest(password))
     end
 
     def password=(password)
