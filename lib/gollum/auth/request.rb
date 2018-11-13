@@ -1,7 +1,7 @@
 module Gollum::Auth
   class Request < Rack::Request
     def requires_authentication?(allow_guests)
-      !allow_guests || is_change_request?
+      !allow_guests || is_write_path?
     end
 
     def store_author_in_session(user)
@@ -10,9 +10,8 @@ module Gollum::Auth
 
     private
 
-    # Returns true if the request includes a path that would result in a change
-    # of the wiki.
-    def is_change_request?
+    # Returns true if path is a write path that would change the wiki.
+    def is_write_path?
       !!(path_info =~ /^\/(create|edit|delete|rename|revert|uploadFile)(\/.*)?$/)
     end
   end
