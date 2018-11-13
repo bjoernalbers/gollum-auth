@@ -73,7 +73,7 @@ describe Gollum::Auth do
   end
 
   context 'when guests are allowed' do
-    let(:options) { { allow_guests: true } }
+    let(:options) { { allow_unauthenticated_readonly: true } }
     let(:app) { Gollum::Auth::App.new(Precious::FakeApp, users, options) }
 
     it 'does not require authentication on the home page' do

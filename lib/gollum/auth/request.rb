@@ -6,8 +6,8 @@ module Gollum::Auth
       (create/|edit/|delete/|rename/|revert/|uploadFile$|upload_file$)
     }x
 
-    def requires_authentication?(allow_guests)
-      !allow_guests || is_write_path?
+    def requires_authentication?(allow_unauthenticated_readonly)
+      !allow_unauthenticated_readonly || is_write_path?
     end
 
     def store_author_in_session(user)

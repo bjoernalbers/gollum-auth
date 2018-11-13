@@ -66,7 +66,7 @@ users = YAML.load %q{
 }
 
 # Allow unauthenticated users to read the wiki (disabled by default).
-options = { allow_guests: true }
+options = { allow_unauthenticated_readonly: true }
 
 # Allow only authenticated users to change the wiki.
 # (NOTE: This must be loaded *before* Precious::App!)

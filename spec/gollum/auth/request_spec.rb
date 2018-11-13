@@ -19,7 +19,7 @@ module Gollum::Auth
             /uploadFile
           ).each do |path|
             subject = build_request path
-            expect(subject.requires_authentication?(allow_guests)).to eq(true),
+            expect(subject.requires_authentication?(allow_unauthenticated_readonly)).to eq(true),
               "expect path #{path} to require authentication"
           end
         end
@@ -34,29 +34,29 @@ module Gollum::Auth
             /gollum/upload_file
           ).each do |path|
             subject = build_request path
-            expect(subject.requires_authentication?(allow_guests)).to eq(true),
+            expect(subject.requires_authentication?(allow_unauthenticated_readonly)).to eq(true),
               "expect path #{path} to require authentication"
           end
         end
       end
 
       context 'when guests are not allowed' do
-        let(:allow_guests) { false }
+        let(:allow_unauthenticated_readonly) { false }
 
         it 'is true for read paths' do
           subject = build_request '/Home'
-          expect(subject.requires_authentication?(allow_guests)).to eq true
+          expect(subject.requires_authentication?(allow_unauthenticated_readonly)).to eq true
         end
 
         include_examples 'write paths require authentication'
       end
 
       context 'when guests are allowed' do
-        let(:allow_guests) { true }
+        let(:allow_unauthenticated_readonly) { true }
 
         it 'is false for read paths' do
           subject = build_request '/Home'
-          expect(subject.requires_authentication?(allow_guests)).to eq false
+          expect(subject.requires_authentication?(allow_unauthenticated_readonly)).to eq false
         end
 
         include_examples 'write paths require authentication'

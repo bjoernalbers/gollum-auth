@@ -15,12 +15,12 @@ module Gollum
       def initialize(app, users, opts = { })
         @app = app
         users.each { |args| User.new(args).save! }
-        @opts = { allow_guests: false }.merge(opts)
+        @opts = { allow_unauthenticated_readonly: false }.merge(opts)
       end
 
       def call(env)
         request = Request.new(env)
-        if request.requires_authentication?(@opts[:allow_guests])
+        if request.requires_authentication?(@opts[:allow_unauthenticated_readonly])
           auth = Rack::Auth::Basic::Request.new(env)
           if auth.provided? && auth.basic? && user = User.find_by_credentials(auth.credentials)
             request.store_author_in_session(user)
