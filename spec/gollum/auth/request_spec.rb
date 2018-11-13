@@ -7,13 +7,13 @@ module Gollum::Auth
       Request.new(env)
     end
 
-    describe '#needs_authentication?' do
-      shared_examples 'write paths need authentication' do
+    describe '#requires_authentication?' do
+      shared_examples 'write paths require authentication' do
         it 'is true for write paths' do
           %w(create edit delete rename revert uploadFile).each do |path|
             subject = build_request "/#{path}"
-            expect(subject.needs_authentication?(allow_guests)).to eq(true),
-              "expect path /#{path} to need authentication"
+            expect(subject.requires_authentication?(allow_guests)).to eq(true),
+              "expect path /#{path} to require authentication"
           end
         end
       end
@@ -23,10 +23,10 @@ module Gollum::Auth
 
         it 'is true for read paths' do
           subject = build_request '/Home'
-          expect(subject.needs_authentication?(allow_guests)).to eq true
+          expect(subject.requires_authentication?(allow_guests)).to eq true
         end
 
-        include_examples 'write paths need authentication'
+        include_examples 'write paths require authentication'
       end
 
       context 'when guests are allowed' do
@@ -34,10 +34,10 @@ module Gollum::Auth
 
         it 'is false for read paths' do
           subject = build_request '/Home'
-          expect(subject.needs_authentication?(allow_guests)).to eq false
+          expect(subject.requires_authentication?(allow_guests)).to eq false
         end
 
-        include_examples 'write paths need authentication'
+        include_examples 'write paths require authentication'
       end
     end
 

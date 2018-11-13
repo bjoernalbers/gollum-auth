@@ -1,6 +1,6 @@
 module Gollum::Auth
   class Request < Rack::Request
-    def needs_authentication?(allow_guests)
+    def requires_authentication?(allow_guests)
       !allow_guests || is_change_request?
     end
 
