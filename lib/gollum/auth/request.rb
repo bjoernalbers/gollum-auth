@@ -1,5 +1,11 @@
 module Gollum::Auth
   class Request < Rack::Request
+    WRITE_PATH_RE = %r{
+      ^/
+      (gollum/)? # This path prefix was introduced in Gollum 5
+      (create/|edit/|delete/|rename/|revert/|uploadFile$|upload_file$)
+    }x
+
     def requires_authentication?(allow_guests)
       !allow_guests || is_write_path?
     end
@@ -12,7 +18,7 @@ module Gollum::Auth
 
     # Returns true if path is a write path that would change the wiki.
     def is_write_path?
-      !!(path_info =~ /^\/(create|edit|delete|rename|revert|uploadFile)(\/.*)?$/)
+      !!(path_info =~ WRITE_PATH_RE)
     end
   end
 end

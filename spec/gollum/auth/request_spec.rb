@@ -9,11 +9,33 @@ module Gollum::Auth
 
     describe '#requires_authentication?' do
       shared_examples 'write paths require authentication' do
-        it 'is true for write paths' do
-          %w(create edit delete rename revert uploadFile).each do |path|
-            subject = build_request "/#{path}"
+        it 'is true for write paths (Gollum 4)' do
+          %w(
+            /create/foo.md
+            /edit/foo.md
+            /delete/foo.md
+            /rename/foo.md
+            /revert/Home/07552da/a5e4711
+            /uploadFile
+          ).each do |path|
+            subject = build_request path
             expect(subject.requires_authentication?(allow_guests)).to eq(true),
-              "expect path /#{path} to require authentication"
+              "expect path #{path} to require authentication"
+          end
+        end
+
+        it 'is true for write paths (Gollum 5)' do
+          %w(
+            /gollum/create/foo.md
+            /gollum/edit/foo.md
+            /gollum/delete/foo.md
+            /gollum/rename/foo.md
+            /gollum/revert/Home/07552da/a5e4711
+            /gollum/upload_file
+          ).each do |path|
+            subject = build_request path
+            expect(subject.requires_authentication?(allow_guests)).to eq(true),
+              "expect path #{path} to require authentication"
           end
         end
       end
