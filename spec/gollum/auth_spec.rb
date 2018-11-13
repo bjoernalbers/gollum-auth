@@ -25,7 +25,7 @@ describe Gollum::Auth do
   let(:app) { Gollum::Auth::App.new(Precious::FakeApp, users) }
 
   it 'has a version number' do
-    expect(Gollum::Auth::VERSION).to eq '0.6.1'
+    expect(Gollum::Auth::VERSION).to eq '0.6.2'
   end
 
   it 'requires authentication on read' do
