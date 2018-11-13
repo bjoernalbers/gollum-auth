@@ -10,7 +10,7 @@ module Gollum::Auth
     describe '#needs_authentication?' do
       shared_examples 'write paths need authentication' do
         it 'is true for write paths' do
-          %w(create edit delete rename revert upload).each do |path|
+          %w(create edit delete rename revert uploadFile).each do |path|
             subject = build_request "/#{path}"
             expect(subject.needs_authentication?(allow_guests)).to eq(true),
               "expect path /#{path} to need authentication"
