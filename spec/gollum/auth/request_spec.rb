@@ -8,34 +8,36 @@ module Gollum::Auth
     end
 
     describe '#needs_authentication?' do
-      let(:allow_guests) { false }
-
-      it 'is true for read requests' do
-        subject = build_request '/Home'
-        expect(subject.needs_authentication?(allow_guests)).to eq true
+      shared_examples 'write paths need authentication' do
+        it 'is true for write paths' do
+          %w(create edit delete rename revert upload).each do |path|
+            subject = build_request "/#{path}"
+            expect(subject.needs_authentication?(allow_guests)).to eq(true),
+              "expect path /#{path} to need authentication"
+          end
+        end
       end
 
-      %w(create edit delete rename revert upload).each do |path|
-        it "is true on #{path}" do
-          subject = build_request "/#{path}"
+      context 'when guests are not allowed' do
+        let(:allow_guests) { false }
+
+        it 'is true for read paths' do
+          subject = build_request '/Home'
           expect(subject.needs_authentication?(allow_guests)).to eq true
         end
+
+        include_examples 'write paths need authentication'
       end
 
       context 'when guests are allowed' do
         let(:allow_guests) { true }
 
-        it 'is false for read requests' do
+        it 'is false for read paths' do
           subject = build_request '/Home'
           expect(subject.needs_authentication?(allow_guests)).to eq false
         end
 
-        %w(create edit delete rename revert upload).each do |path|
-          it "is true on #{path}" do
-            subject = build_request "/#{path}"
-            expect(subject.needs_authentication?(allow_guests)).to eq true
-          end
-        end
+        include_examples 'write paths need authentication'
       end
     end
 
