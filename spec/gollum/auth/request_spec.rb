@@ -40,7 +40,7 @@ module Gollum::Auth
         end
       end
 
-      context 'when guests are not allowed' do
+      context 'when unauthenticated readonly is forbidden' do
         let(:allow_unauthenticated_readonly) { false }
 
         it 'is true for read paths' do
@@ -51,7 +51,7 @@ module Gollum::Auth
         include_examples 'write paths require authentication'
       end
 
-      context 'when guests are allowed' do
+      context 'when unauthenticated readonly is allowed' do
         let(:allow_unauthenticated_readonly) { true }
 
         it 'is false for read paths' do
