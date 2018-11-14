@@ -55,8 +55,24 @@ module Gollum::Auth
         let(:allow_unauthenticated_readonly) { true }
 
         it 'is false for read paths' do
-          subject = build_request '/Home'
-          expect(subject.requires_authentication?(allow_unauthenticated_readonly)).to eq false
+          %w(
+            /Home
+            /foo.md
+            /gollum/create.md
+            /gollum/edit.md
+            /gollum/delete.md
+            /gollum/revert.md
+            /gollum/upload_file.md
+            /create.md
+            /edit.md
+            /delete.md
+            /revert.md
+            /uploadFile.md
+          ).each do |path|
+            subject = build_request path
+            expect(subject.requires_authentication?(allow_unauthenticated_readonly)).to eq(false),
+              "expect path #{path} to not require authentication"
+          end
         end
 
         include_examples 'write paths require authentication'
