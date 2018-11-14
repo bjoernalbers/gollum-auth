@@ -29,6 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'rack-test', '~> 0.6'
-  spec.add_development_dependency 'factory_girl', '~> 4.8'
+  spec.add_development_dependency 'factory_bot', '~> 4.8'
   spec.add_development_dependency 'faker', '~> 1.7'
 end

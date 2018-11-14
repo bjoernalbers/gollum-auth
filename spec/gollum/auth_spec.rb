@@ -13,7 +13,7 @@ describe Gollum::Auth do
   include Rack::Test::Methods
 
   let(:user_params) do
-    FactoryGirl.attributes_for(:user,
+    FactoryBot.attributes_for(:user,
                                username: 'admin',
                                email: 'admin@example.com',
                                name: 'Administrator',

@@ -1,5 +1,5 @@
 require 'bundler/setup'
-require 'factory_girl'
+require 'factory_bot'
 require 'faker'
 require 'gollum/auth'
 
@@ -11,9 +11,9 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  # Factory Girl
-  config.include FactoryGirl::Syntax::Methods
+  # Factory Bot
+  config.include FactoryBot::Syntax::Methods
   config.before(:suite) do
-    FactoryGirl.find_definitions
+    FactoryBot.find_definitions
   end
 end
