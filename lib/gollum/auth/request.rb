@@ -3,7 +3,7 @@ module Gollum::Auth
     WRITE_PATH_RE = %r{
       ^/
       (gollum/)? # This path prefix was introduced in Gollum 5
-      (create/|edit/|delete/|rename/|revert/|uploadFile$|upload_file$)
+      (create$|create/|edit/|delete/|rename/|revert/|uploadFile$|upload_file$)
     }x
 
     def requires_authentication?(allow_unauthenticated_readonly)
